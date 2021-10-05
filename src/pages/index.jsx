@@ -1,12 +1,45 @@
 import * as React from "react"
 import { Link, graphql } from "gatsby"
-
-import { Address } from "eth-components"
+import { Address, Balance } from 'eth-components/ant';
 import Bio from "../components/bio"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 
+import { ThemeSwitcherProvider } from 'react-css-theme-switcher';
+
+const themes = {
+  light: 'public/light.css',
+  dark: 'public/dark.css',
+};
+
+  // const {
+  //   purpose,
+  //   setPurposeEvents,
+  //   address,
+  //   mainnetProvider,
+  //   localProvider,
+  //   yourLocalBalance,
+  //   price,
+  //   tx,
+  //   readContracts,
+  //   writeContracts,
+  // } = props;
+
+// const web3Modal = new Web3Modal({
+//   // network: "mainnet", // optional
+//   cacheProvider: true, // optional
+//   providerOptions: {
+//     walletconnect: {
+//       package: WalletConnectProvider, // required
+//       options: {
+//         infuraId: INFURA_ID,
+//       },
+//     },
+//   },
+// });
+
 const { ethers } = require("ethers");
+const mainnetProvider = new ethers.providers.StaticJsonRpcProvider("https://rpc.scaffoldeth.io:48544")
 
 const BlogIndex = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
@@ -15,28 +48,29 @@ const BlogIndex = ({ data, location }) => {
   if (posts.length === 0) {
     return (
       <Layout location={location} title={siteTitle}>
-        <Seo title="All posts" />
-        <Bio />
-        <p>
-          No blog posts found. Add markdown posts to "content/blog" (or the
-          directory you specified for the "gatsby-source-filesystem" plugin in
-          gatsby-config.js).
-        </p>
-      </Layout>
+        <ThemeSwitcherProvider defaultTheme="light" themeMap={themes}>
+      
+          <Seo title="All posts" />
+          <Bio />
+          <p>
+            No blog posts found. Add markdown posts to "content/blog" (or the
+            directory you specified for the "gatsby-source-filesystem" plugin in
+            gatsby-config.js).
+          </p>
+        </ThemeSwitcherProvider>
+        </Layout>
+      
     )
   }
 
   return (
 
     <Layout location={location} title={siteTitle}>
+      <ThemeSwitcherProvider defaultTheme="light" themeMap={themes}>
+      
       <Seo title="All posts" />
       <Bio />
-      <Address
-        address="0x769699506f972A992fc8950C766F0C7256Df601f"
-        // ensProvider={mainnetProvider}
-        // blockExplorer="https://ropsten.etherscan.io/"
-        fontSize={16}
-      />
+      <Address address="0x769699506f972A992fc8950C766F0C7256Df601f" ensProvider={mainnetProvider} fontSize={16} />
       <ol style={{ listStyle: `none` }}>
         {posts.map(post => {
           const title = post.frontmatter.title || post.fields.slug
@@ -69,6 +103,7 @@ const BlogIndex = ({ data, location }) => {
           )
         })}
       </ol>
+      </ThemeSwitcherProvider>
     </Layout>
   )
 }
