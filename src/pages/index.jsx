@@ -1,9 +1,11 @@
-import * as React from "react"
-import { Link, graphql } from "gatsby"
-import { Address, Balance } from 'eth-components/ant';
-import Bio from "../components/bio"
-import Layout from "../components/layout"
-import Seo from "../components/seo"
+import React from "react";
+import { Link, graphql } from "gatsby";
+
+import Bio from "../components/bio";
+import Layout from "../components/layout";
+import Seo from "../components/seo";
+
+import App from "./App";
 
 import { ThemeSwitcherProvider } from 'react-css-theme-switcher';
 
@@ -11,35 +13,6 @@ const themes = {
   light: 'public/light.css',
   dark: 'public/dark.css',
 };
-
-  // const {
-  //   purpose,
-  //   setPurposeEvents,
-  //   address,
-  //   mainnetProvider,
-  //   localProvider,
-  //   yourLocalBalance,
-  //   price,
-  //   tx,
-  //   readContracts,
-  //   writeContracts,
-  // } = props;
-
-// const web3Modal = new Web3Modal({
-//   // network: "mainnet", // optional
-//   cacheProvider: true, // optional
-//   providerOptions: {
-//     walletconnect: {
-//       package: WalletConnectProvider, // required
-//       options: {
-//         infuraId: INFURA_ID,
-//       },
-//     },
-//   },
-// });
-
-const { ethers } = require("ethers");
-const mainnetProvider = new ethers.providers.StaticJsonRpcProvider("https://rpc.scaffoldeth.io:48544")
 
 const BlogIndex = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
@@ -70,7 +43,7 @@ const BlogIndex = ({ data, location }) => {
       
       <Seo title="All posts" />
       <Bio />
-      <Address address="0x769699506f972A992fc8950C766F0C7256Df601f" ensProvider={mainnetProvider} fontSize={16} />
+      <App />
       <ol style={{ listStyle: `none` }}>
         {posts.map(post => {
           const title = post.frontmatter.title || post.fields.slug
